@@ -3,9 +3,12 @@
 
     module.controller("myCtrl", ['$scope', '$http', 'util', function($scope, $http, util) {
         $scope.getData = function() {
+            // return nothing if no  link is entered
             if ($scope.repoName == undefined) {
                 return;
             }
+
+            // making all the values null before fetching data
             $scope.totalOpenissues = null;;
             $scope.last24Hours = null;
             $scope.last24butLess7 = null;
@@ -14,6 +17,7 @@
             var reponame = $scope.repoName.replace("https://github.com/", "");
 
             var apiUrl = "https://api.github.com/search/issues?q=is:open+repo:" + reponame;
+            // function to get date time according to the given milliseconds
             var last24 = util.convertDate(86400000);
             var last7 = util.convertDate(604800000);
 
@@ -21,18 +25,22 @@
             var last24butLess7 = apiUrl + "+created:<" + last24 + "&created:>" + last7;
             var moreThan7days = apiUrl + "+created:<" + last7;
 
+            // api call for total issues count
             util.getApi(apiUrl).then(function(response) {
                 $scope.totalOpenissues = response.data.total_count;
             });
 
+            //api call for Number of open issues that were opened in the last 24 hours
             util.getApi(last24Hours).then(function(response) {
                 $scope.last24Hours = response.data.total_count;
             });
 
+            //api call for - Number of open issues that were opened more than 24 hours ago but less than 7 days ago
             util.getApi(last24butLess7).then(function(response) {
                 $scope.last24butLess7 = response.data.total_count;
             })
 
+            // api call for - Number of open issues that were opened more than 7 days ago 
             util.getApi(moreThan7days).then(function(response) {
                 $scope.moreThan7days = response.data.total_count;
             })
@@ -41,10 +49,11 @@
 
     module.factory('util', ['$http', function($http) {
         return {
-            getApi: function(apiUrl, callback) {
-                console.log("apiUrl " + apiUrl);
+            // api call
+            getApi: function(apiUrl) {
                 return $http.get(apiUrl);
             },
+            // give date in api format from given time
             convertDate: function(num) {
                 var d1 = new Date();
                 var tt = Number(d1) - 86400000;
