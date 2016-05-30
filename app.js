@@ -5,14 +5,15 @@
         $scope.getData = function() {
             console.log("entered");
 
-            var apiUrl = "https://api.github.com/search/issues?q=is:open+repo:" + $scope.repoName;
+            var reponame = $scope.repoName.replace("https://github.com/", "");
+
+            var apiUrl = "https://api.github.com/search/issues?q=is:open+repo:" + reponame;
 
             var last24Hours = apiUrl + "+created:>" + util.last24();
             var last24butLess7 = apiUrl + "+created:<" + util.last24() + "+created:>" + util.last7day();
             console.log(last24butLess7);
             var moreThan7days = apiUrl + "+created:<" + util.last7day();
-            // created: > 2016 - 05 - 30 T07: 30: 00
-
+            
             util.getApi(apiUrl).then(function(response) {
                 console.log(response);
                 $scope.totalOpenissues = response.data.total_count;

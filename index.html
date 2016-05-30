@@ -1,20 +1,126 @@
 <html>
 
-<head></head>
+<head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.indigo-deep_purple.min.css" />
+    <style>
+    .demo-card-event.mdl-card {
+        width: 256px;
+        height: 256px;
+        background: #3E4EB8;
+    }
+    
+    .text_area {
+        margin-left: 15%;
+        width: 60%;
+    }
+    
+    .button {
+        font-size: xx-large;
+        margin-left: 30%;
+    }
+    
+    .demo-card-event > .mdl-card__actions {
+        border-color: rgba(255, 255, 255, 0.2);
+    }
+    
+    .demo-card-event > .mdl-card__title {
+        align-items: flex-start;
+    }
+    
+    .demo-card-event > .mdl-card__title > h4 {
+        margin-top: 0;
+    }
+    
+    .demo-card-event > .mdl-card__actions {
+        display: flex;
+        box-sizing: border-box;
+        align-items: center;
+    }
+    
+    .demo-card-event > .mdl-card__actions > .material-icons {
+        padding-right: 10px;
+    }
+    
+    .demo-card-event > .mdl-card__title,
+    .demo-card-event > .mdl-card__actions,
+    .demo-card-event > .mdl-card__actions > .mdl-button {
+        color: #fff;
+    }
+    </style>
+</head>
 
-<body >
+<body>
     <div ng-app="myApp" ng-controller="myCtrl">
-        <input type="text" ng-model="repoName">
-        <p>Total number of open issues:</p>
-        <h1>{{totalOpenissues}}</h1>
-        <p> Number of open issues that were opened in the last 24 hours:</p>
-        <h1>{{last24Hours}}</h1>
-        <p> Number of open issues that were opened more than 24 hours ago but less than 7 days ago:</p>
-        <h1>{{last24butLess7}}</h1>
-        <p>Number of open issues that were opened more than 7 days ago:</p>
-        <h1>{{moreThan7days}}</h1>
-        <button ng-click="getData()">Submit</button>
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label text_area">
+            <input class="mdl-textfield__input" type="text" id="sample3" ng-model="repoName">
+            <label class="mdl-textfield__label" for="sample3">Enter git repo link</label>
+        </div>
+        <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-button--colored" ng-click="getData()">
+            <i class="material-icons">send</i>
+        </button>
+        <div style="width:100%;margin:4%;">
+            <div style="width:23%;float:left">
+                <div class="demo-card-event mdl-card mdl-shadow--2dp">
+                    <div class="mdl-card__title mdl-card--expand">
+                        <h4>
+      Total number of open issues
+    </h4>
+                    </div>
+                    <div class="mdl-card__actions mdl-card--border">
+                        <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect button">
+      {{totalOpenissues}}
+    </a>
+                        <div class="mdl-layout-spacer"></div>
+                    </div>
+                </div>
+            </div>
+            <div style="width:23%;float:left">
+                <div class="demo-card-event mdl-card mdl-shadow--2dp">
+                    <div class="mdl-card__title mdl-card--expand">
+                        <h4>
+     Issues opened in last 24 hours
+    </h4>
+                    </div>
+                    <div class="mdl-card__actions mdl-card--border">
+                        <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect button">
+      {{last24Hours}}
+    </a>
+                        <div class="mdl-layout-spacer"></div>
+                    </div>
+                </div>
+            </div>
+            <div style="width:23%;float:left">
+                <div class="demo-card-event mdl-card mdl-shadow--2dp">
+                    <div class="mdl-card__title mdl-card--expand">
+                        <h4>
+      Issues opened more than 24 hours ago but less than 7 days ago
+    </h4>
+                    </div>
+                    <div class="mdl-card__actions mdl-card--border">
+                        <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect button">
+      {{last24butLess7}}
+    </a>
+                        <div class="mdl-layout-spacer"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="demo-card-event mdl-card mdl-shadow--2dp">
+                <div class="mdl-card__title mdl-card--expand">
+                    <h4>
+      Issues opened more than 7 days ago
+    </h4>
+                </div>
+                <div class="mdl-card__actions mdl-card--border">
+                    <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect button">
+      {{moreThan7days}}
+    </a>
+                    <div class="mdl-layout-spacer"></div>
+                </div>
+            </div>
+        </div>
     </div>
+    <script defer src="https://code.getmdl.io/1.1.3/material.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
     <script src="app.js"></script>
 </body>
