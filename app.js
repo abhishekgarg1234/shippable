@@ -8,7 +8,7 @@
             var apiUrl = "https://api.github.com/search/issues?q=is:open+repo:" + $scope.repoName;
 
             var last24Hours = apiUrl + "+created:>" + util.last24();
-            var last24butLess7 = apiUrl + "+created:>" + util.last24() + "+created:>" + util.last7day();
+            var last24butLess7 = apiUrl + "+created:<" + util.last24() + "+created:>" + util.last7day();
             console.log(last24butLess7);
             var moreThan7days = apiUrl + "+created:<" + util.last7day();
             // created: > 2016 - 05 - 30 T07: 30: 00
