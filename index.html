@@ -2,6 +2,21 @@
 
 <head></head>
 
-<body></body>
+<body >
+    <div ng-app="myApp" ng-controller="myCtrl">
+        <input type="text" ng-model="repoName">
+        <p>Total number of open issues:</p>
+        <h1>{{totalOpenissues}}</h1>
+        <p> Number of open issues that were opened in the last 24 hours:</p>
+        <h1>{{last24Hours}}</h1>
+        <p> Number of open issues that were opened more than 24 hours ago but less than 7 days ago:</p>
+        <h1>{{last24butLess7}}</h1>
+        <p>Number of open issues that were opened more than 7 days ago:</p>
+        <h1>{{moreThan7days}}</h1>
+        <button ng-click="getData()">Submit</button>
+    </div>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script src="app.js"></script>
+</body>
 
 </html>
