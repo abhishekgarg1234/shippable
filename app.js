@@ -1,7 +1,7 @@
     var module = angular.module('myApp', []);
 
 
-    module.controller("myCtrl", ['$scope', '$http', 'util', function($scope, $http, util) {
+    module.controller("myCtrl", ['$scope', '$http', '$q', 'util', function($scope, $http, $q, util) {
         $scope.getData = function() {
             // return nothing if no  link is entered
             if ($scope.repoName == undefined) {
@@ -26,34 +26,34 @@
             var last24Hours = apiUrl + "+created:>" + last24;
             var last24butLess7 = apiUrl + "+created:<" + last24 + "&created:>" + last7;
             var moreThan7days = apiUrl + "+created:<" + last7;
+            var promiseArray = [];
 
             // api call for total issues count
-            util.getApi(apiUrl).then(function(response) {
-
-                $scope.totalOpenissues = response.data.total_count;
-                $scope.last24butLess7 = parseInt($scope.totalOpenissues) - parseInt($scope.moreThan7days) - parseInt($scope.last24Hours);
-                console.log($scope.last24butLess7);
-            });
+            promiseArray.push(
+                util.getApi(apiUrl).then(function(response) {
+                    $scope.totalOpenissues = response.data.total_count;
+                })
+            );
 
             //api call for Number of open issues that were opened in the last 24 hours
-            util.getApi(last24Hours).then(function(response) {
-                $scope.last24Hours = response.data.total_count;
-                $scope.last24butLess7 = parseInt($scope.totalOpenissues) - parseInt($scope.moreThan7days) - parseInt($scope.last24Hours);
-                console.log($scope.last24butLess7);
-            });
-
-            //api call for - Number of open issues that were opened more than 24 hours ago but less than 7 days ago
-            // util.getApi(last24butLess7).then(function(response) {
-            //     $scope.last24butLess7 = response.data.total_count;
-            // });
+            promiseArray.push(
+                util.getApi(last24Hours).then(function(response) {
+                    $scope.last24Hours = response.data.total_count;
+                })
+            );
 
             // api call for - Number of open issues that were opened more than 7 days ago 
-            util.getApi(moreThan7days).then(function(response) {
-                $scope.moreThan7days = response.data.total_count;
-                $scope.last24butLess7 = parseInt($scope.totalOpenissues) - parseInt($scope.moreThan7days) - parseInt($scope.last24Hours);
-                console.log($scope.last24butLess7);
-            });
+            promiseArray.push(
+                util.getApi(moreThan7days).then(function(response) {
+                    $scope.moreThan7days = response.data.total_count;
 
+                })
+            );
+
+            //api call for - Number of open issues that were opened more than 24 hours ago but less than 7 days ago
+            $q.all(promiseArray).then(function() {
+                $scope.last24butLess7 = parseInt($scope.totalOpenissues) - parseInt($scope.moreThan7days) - parseInt($scope.last24Hours);
+            });
 
 
         }
